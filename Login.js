@@ -140,9 +140,6 @@ export default function LoginScreen(props) {
                 />
             </View>
             {passwordError !== "" ? <Text style={styles.validationError}>{passwordError}</Text> : null}
-            <TouchableOpacity>
-                <Text style={styles.forgot_button}>Forgot Password?</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.loginBtn}
                 disabled={signInLoading}
                 onPress={signIn}>
