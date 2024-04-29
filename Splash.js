@@ -1,14 +1,22 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import SuperTokens from "supertokens-react-native";
+import * as LocalAuthentication from 'expo-local-authentication'
 
 export const SplashScreen = ({ navigation }) => {
     const checkSessionExists = async () => {
         const sessionExists = await SuperTokens.doesSessionExist();
-
         if (sessionExists) {
-            navigation.replace("Home");
+            const compatible = await LocalAuthentication.hasHardwareAsync();
+            if (compatible) {
+                const biometricAuth = await LocalAuthentication.authenticateAsync();
+                if (biometricAuth.success) {
+                    navigation.replace("Home");
+                    return;
+                }
+            }
+            await SuperTokens.signOut();
+            navigation.replace("Login");
         } else {
             navigation.replace("Login");
         }

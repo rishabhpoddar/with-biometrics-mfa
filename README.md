@@ -4,6 +4,8 @@ This example app shows how you can use SuperTokens with a React Native app to au
 
 The auth server (in the `backend` folder) is written in NodeJS and uses the `supertokens-node` SDK. The frontend app uses the `supertokens-react-native` SDK.
 
+On first startup, the app shows an email password login UI where the user can sign in or sign up. After doing this, the user is shown the home page. The next time the user reopens the app, they are asked for their biometrics (touch ID / face ID / device pin) before they get access to the app. If the user hasn't configured any of these, they are logged out and have to relogin via the email password method.
+
 ## Setup instructions:
 
 ### 1) Install dependencies

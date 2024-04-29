@@ -16,6 +16,7 @@
     "@types/react": "~18.2.45",
     "cors": "^2.8.5",
     "expo": "~50.0.14",
+    "expo-local-authentication": "^13.8.0",
     "expo-status-bar": "~1.11.1",
     "express": "^4.19.2",
     "react": "18.2.0",
