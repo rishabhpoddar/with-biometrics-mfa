@@ -11,17 +11,21 @@ import {
 import supertokens from "supertokens-react-native";
 import axios from "axios";
 supertokens.addAxiosInterceptors(axios);
-import { API_DOMAIN } from "./App";
+import { API_DOMAIN } from "./constants";
 
 
-export default function LoginScreen() {
+export default function LoginScreen(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
+    const [signInLoading, setSignInLoading] = useState(false);
+    const [signUpLoading, setSigUpLoading] = useState(false);
+
     const signIn = async () => {
+        setSignInLoading(true);
         setEmailError("");
         setPasswordError("");
         const config = {
@@ -41,6 +45,7 @@ export default function LoginScreen() {
 
         axios(config)
             .then(function (response) {
+                setSignInLoading(false);
                 let data = response.data;
                 if (data.status === "FIELD_ERROR") {
                     for (let i = 0; i < data.formFields.length; i++) {
@@ -58,13 +63,16 @@ export default function LoginScreen() {
                     Alert.alert("Error", "Oops! Sign in denied! Please try again later or contact support.");
                 }
                 // successful sign in! 
+                props.navigation.replace("Home");
             })
             .catch(function () {
+                setSignInLoading(false);
                 Alert.alert("Error", "Oops! Something went wrong!");
             });
     }
 
     const signUp = async () => {
+        setSigUpLoading(true);
         setEmailError("");
         setPasswordError("");
         const config = {
@@ -84,6 +92,7 @@ export default function LoginScreen() {
 
         axios(config)
             .then(function (response) {
+                setSigUpLoading(false);
                 let data = response.data;
                 if (data.status === "FIELD_ERROR") {
                     for (let i = 0; i < data.formFields.length; i++) {
@@ -98,9 +107,11 @@ export default function LoginScreen() {
                 } else if (data.status === "SIGN_UP_NOT_ALLOWED") {
                     Alert.alert("Error", "Oops! Sign up denied! Please try again later or contact support.");
                 }
-                // successful sign up! 
+                // successful sign up!
+                props.navigation.replace("Home");
             })
             .catch(function () {
+                setSigUpLoading(false);
                 Alert.alert("Error", "Oops! Something went wrong!");
             });
     }
@@ -132,11 +143,15 @@ export default function LoginScreen() {
             <TouchableOpacity>
                 <Text style={styles.forgot_button}>Forgot Password?</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtn} onPress={signIn}>
-                <Text style={styles.loginText}>LOGIN</Text>
+            <TouchableOpacity style={styles.loginBtn}
+                disabled={signInLoading}
+                onPress={signIn}>
+                <Text style={styles.loginText}>{signInLoading ? "Loading..." : "LOGIN"}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtn} onPress={signUp}>
-                <Text style={styles.loginText}>SIGN UP</Text>
+            <TouchableOpacity style={styles.loginBtn}
+                disabled={signUpLoading}
+                onPress={signUp}>
+                <Text style={styles.loginText}>{signUpLoading ? "Loading..." : "SIGN UP"}</Text>
             </TouchableOpacity>
         </View>
     );

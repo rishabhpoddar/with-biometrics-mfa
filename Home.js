@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SuperTokens from "supertokens-react-native";
-import { API_DOMAIN } from "./App";
+import { API_DOMAIN } from "./constants";
 
 export const HomeScreen = (props) => {
     const [userId, setUserId] = useState(undefined);
@@ -27,7 +27,7 @@ export const HomeScreen = (props) => {
 
     const signOut = async () => {
         await SuperTokens.signOut();
-        props.navigation.replace("Splash");
+        props.navigation.replace("Login");
     };
 
     useEffect(() => {

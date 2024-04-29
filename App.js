@@ -6,8 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SplashScreen } from "./Splash";
 import LoginScreen from "./Login";
 import { HomeScreen } from "./Home";
-
-export const API_DOMAIN = "http://192.168.1.18:3001"
+import { API_DOMAIN } from "./constants";
 
 supertokens.init({
   apiDomain: API_DOMAIN,
